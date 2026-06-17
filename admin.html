@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>内容后台 | 中海神州高尔夫球会</title>
+    <meta name="description" content="中海神州高尔夫球会官网内容后台，可编辑文字、图片、视频封面并导入导出内容 JSON。" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e5647'/%3E%3Ccircle cx='39' cy='20' r='7' fill='%23c59f63'/%3E%3Cpath d='M12 45c12-12 26-12 40 0' fill='none' stroke='%23fffdf4' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./assets/site.css" />
+  </head>
+  <body class="admin-body">
+    <header class="admin-topbar">
+      <div>
+        <a class="back-link" href="./index.html">返回前台</a>
+        <h1>内容后台</h1>
+        <p>所有前台文字、图片地址、视频封面和列表模块都从这里维护。</p>
+      </div>
+      <div class="admin-actions">
+        <button class="secondary-button" type="button" data-export>导出 JSON</button>
+        <label class="secondary-button file-button">
+          导入 JSON
+          <input type="file" data-import accept="application/json" />
+        </label>
+        <button class="danger-button" type="button" data-reset>恢复默认</button>
+      </div>
+    </header>
+    <main class="admin-shell">
+      <aside class="admin-guide">
+        <h2>运营规则</h2>
+        <p>只上传球会自有拍摄、已授权图库或内部确认可用素材。默认图只是原创占位，不代表真实球场照片。</p>
+        <p>图片字段支持 URL，也支持上传本地图片保存到浏览器。正式上线时可换成对象存储或 CMS 媒资库。</p>
+        <div class="status-card" data-admin-status>内容已载入</div>
+      </aside>
+      <section class="editor-panel">
+        <div class="editor-head">
+          <h2>内容编辑区</h2>
+          <p>像改表单一样维护官网文字和图片；需要填链接时再展开高级项。</p>
+        </div>
+        <div data-editor></div>
+      </section>
+    </main>
+
+    <script src="./assets/content.js"></script>
+    <script src="./assets/admin.js"></script>
+  </body>
+</html>
