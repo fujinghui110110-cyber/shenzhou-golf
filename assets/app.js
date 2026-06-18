@@ -41,19 +41,39 @@
     return `style="background-image: linear-gradient(180deg, rgba(3,16,20,.08), rgba(3,16,20,.32)), url('${escapeHtml(url)}')"`;
   }
 
+  function resolveFilmSrc(film) {
+    const configured = window.ShenzhouVideoConfig?.[film.videoKey];
+    return configured || film.src || "";
+  }
+
   function renderFilms() {
+    const labels = ["晨露短片", "海岸短片", "挥杆短片"];
     return (content.films || [])
-      .map(
-        (film, index) => `
+      .map((film, index) => {
+        const filmSrc = resolveFilmSrc(film);
+        return `
           <article class="film-card ${index === 0 ? "featured" : ""}">
-            <video controls preload="metadata" playsinline poster="${escapeHtml(film.poster)}" src="${escapeHtml(film.src)}"></video>
+            <div class="film-media">
+              ${
+                filmSrc
+                  ? `<video preload="metadata" muted playsinline poster="${escapeHtml(film.poster)}" src="${escapeHtml(filmSrc)}"></video>`
+                  : `<img src="${escapeHtml(film.poster)}" alt="${escapeHtml(film.title)}" loading="lazy" />`
+              }
+            </div>
             <div class="film-copy">
-              <span>${escapeHtml(String(index + 1).padStart(2, "0"))}</span>
+              <div class="film-copy-header">
+                <span>${escapeHtml(labels[index] || "球会影像")}</span>
+                ${
+                  filmSrc
+                    ? `<button class="film-play-toggle" type="button" aria-label="播放${escapeHtml(film.title)}">播放完整影片</button>`
+                    : `<span class="film-pending">高清影片待接入</span>`
+                }
+              </div>
               <h3>${escapeHtml(film.title)}</h3>
               <p>${escapeHtml(film.subtitle)}</p>
             </div>
-          </article>`
-      )
+          </article>`;
+      })
       .join("");
   }
 
@@ -62,12 +82,12 @@
       .map(
         (chapter, index) => {
           const chapterPages = (content.brochure?.pages || []).filter((pageItem) => pageItem.chapter === chapter.title);
+          const nativePages = chapterPages.filter(isNativeBrochurePage);
+          const imagePages = chapterPages.filter((pageItem) => !isNativeBrochurePage(pageItem));
           const featureImage = chapter.image || chapterPages[0]?.image || content.brochure.heroImage;
-          const spotlightPages = chapterPages.slice(0, 3);
           return `
             <article class="brochure-chapter-panel" data-motion>
               <div class="chapter-copy">
-                <span>${escapeHtml(chapter.range)}</span>
                 <h3>${escapeHtml(chapter.title)}</h3>
                 <p>${escapeHtml(chapter.text)}</p>
                 <ul>
@@ -76,18 +96,10 @@
               </div>
               <div class="chapter-stage">
                 <img class="chapter-main-image" src="${escapeHtml(featureImage)}" alt="${escapeHtml(chapter.title)}" loading="lazy" />
-                <div class="chapter-stack" aria-hidden="true">
-                  ${spotlightPages
-                    .map(
-                      (pageItem, stackIndex) => `
-                        <img src="${escapeHtml(pageItem.image)}" alt="" loading="lazy" style="--stack-index:${stackIndex}" />`
-                    )
-                    .join("")}
-                </div>
-                <strong>${escapeHtml(String(index + 1).padStart(2, "0"))}</strong>
               </div>
+              ${nativePages.length ? `<div class="chapter-native-content">${nativePages.map((pageItem) => renderNativeBrochurePage(pageItem)).join("")}</div>` : ""}
               <div class="brochure-rail" aria-label="${escapeHtml(chapter.title)}图志">
-                ${chapterPages.map((pageItem) => renderBrochurePage(pageItem)).join("")}
+                ${imagePages.map((pageItem) => renderBrochurePage(pageItem)).join("")}
               </div>
             </article>`;
         }
@@ -95,15 +107,50 @@
       .join("");
   }
 
+  function isNativeBrochurePage(pageItem) {
+    return pageItem.nativeType === "awards" || /年度奖项/.test(pageItem.title || "");
+  }
+
   function renderBrochurePage(pageItem) {
     return `
       <figure class="brochure-page" data-chapter="${escapeHtml(pageItem.chapter)}">
-        <img src="${escapeHtml(pageItem.image)}" alt="${escapeHtml(pageItem.title)}" loading="lazy" />
+        <button class="image-zoom-button brochure-image-button" type="button" data-lightbox-src="${escapeHtml(pageItem.image)}" data-lightbox-title="${escapeHtml(pageItem.title)}" aria-label="放大查看${escapeHtml(pageItem.title)}">
+          <img src="${escapeHtml(pageItem.image)}" alt="${escapeHtml(pageItem.title)}" loading="lazy" />
+        </button>
         <figcaption>
-          <span>${escapeHtml(pageItem.number)}</span>
           <strong>${escapeHtml(pageItem.title)}</strong>
         </figcaption>
       </figure>`;
+  }
+
+  function renderNativeBrochurePage(pageItem) {
+    if (isNativeBrochurePage(pageItem)) return renderAwardTimeline(pageItem);
+    return "";
+  }
+
+  function renderAwardTimeline(pageItem) {
+    const awards = content.brochure?.awards || [];
+    return `
+      <article class="native-story-panel awards-panel" data-chapter="${escapeHtml(pageItem.chapter)}">
+        <div class="awards-panel-head">
+          <span>${escapeHtml(pageItem.chapter)}</span>
+          <h4>${escapeHtml(content.brochure?.awardsTitle || pageItem.title)}</h4>
+          <p>${escapeHtml(content.brochure?.awardsSubtitle || "年度荣誉以网页时间线呈现，便于阅读和维护。")}</p>
+        </div>
+        <div class="award-timeline" aria-label="${escapeHtml(pageItem.title)}">
+          ${awards
+            .map(
+              (award) => `
+                <section class="award-year">
+                  <strong>${escapeHtml(award.year)}</strong>
+                  <ul>
+                    ${(award.items || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+                  </ul>
+                </section>`
+            )
+            .join("")}
+        </div>
+      </article>`;
   }
 
   function renderMerchants() {
@@ -111,7 +158,9 @@
       .map(
         (merchant) => `
           <article class="merchant-card">
-            <img src="${escapeHtml(merchant.image)}" alt="${escapeHtml(merchant.name)}" loading="lazy" />
+            <button class="image-zoom-button merchant-image-button" type="button" data-lightbox-src="${escapeHtml(merchant.image)}" data-lightbox-title="${escapeHtml(merchant.name)}" aria-label="放大查看${escapeHtml(merchant.name)}">
+              <img src="${escapeHtml(merchant.image)}" alt="${escapeHtml(merchant.name)}" loading="lazy" />
+            </button>
             <h3>${escapeHtml(merchant.name)}</h3>
           </article>`
       )
@@ -123,7 +172,6 @@
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) metaDescription.setAttribute("content", content.brand.pageDescription || "");
     document.querySelector("[data-skip-label]").textContent = content.ui.skipLabel;
-    document.querySelector("[data-admin-label]").textContent = content.ui.adminLabel;
     document.querySelector("[data-menu-label]").textContent = content.ui.menuLabel;
     nav.setAttribute("aria-label", content.ui.mainNavAriaLabel);
     document.querySelector("[data-brand-name]").textContent = content.brand.clubName;
@@ -163,6 +211,7 @@
     page.innerHTML = `
       <section id="top" class="hero-section">
         <div class="hero-media" ${imageStyle(content.hero.image)} aria-label="${escapeHtml(content.hero.title)}"></div>
+        <div class="hero-cinema-lines" aria-hidden="true"></div>
         <div class="hero-scrim"></div>
         <div class="hero-content">
           <p class="micro-label">${escapeHtml(content.hero.eyebrow)}</p>
@@ -173,6 +222,7 @@
             <a class="ghost-link large" href="#films">${escapeHtml(content.hero.secondaryCta)}</a>
           </div>
         </div>
+        <div class="hero-scroll-cue" aria-hidden="true"><span></span></div>
         <aside class="today-panel" aria-label="${escapeHtml(content.today.title)}">
           <h2>${escapeHtml(content.today.title)}</h2>
           <p>${escapeHtml(content.today.dateLabel)}</p>
@@ -189,12 +239,12 @@
           <h2>${escapeHtml(content.sections.intro.title)}</h2>
           <p>${escapeHtml(content.sections.intro.text)}</p>
         </div>
-        <div class="video-feature" ${imageStyle(content.hero.videoCover)}>
-          <a href="#films" aria-label="${escapeHtml(content.ui.videoAriaPrefix)}${escapeHtml(content.ui.phoneSeparator)}${escapeHtml(content.hero.videoTitle)}">
-            <span>${escapeHtml(content.ui.videoPlayLabel)}</span>
+        <div class="destination-feature" ${imageStyle(content.hero.videoCover)} aria-label="${escapeHtml(content.hero.videoTitle)}">
+          <div class="destination-feature-copy">
+            <span>海岸尺度</span>
             <strong>${escapeHtml(content.hero.videoTitle)}</strong>
             <small>${escapeHtml(content.hero.videoSubtitle)}</small>
-          </a>
+          </div>
         </div>
       </section>
 
@@ -203,8 +253,11 @@
           <h2>${escapeHtml(content.sections.films.title)}</h2>
           <p>${escapeHtml(content.sections.films.text)}</p>
         </div>
-        <div class="film-grid">
-          ${renderFilms()}
+        <div class="film-frame" data-motion>
+          <div class="film-frame-edge" aria-hidden="true"></div>
+          <div class="film-grid">
+            ${renderFilms()}
+          </div>
         </div>
       </section>
 
@@ -281,10 +334,12 @@
             </div>
           </div>
           <div class="atlas-stage">
-            <img class="atlas-main" src="${escapeHtml(content.brochure.heroImage)}" alt="${escapeHtml(content.brochure.title)}" loading="lazy" />
+            <img class="atlas-main" src="${escapeHtml(content.brochure.heroImage)}" alt="${escapeHtml(content.brochure.title)}" loading="lazy" data-lightbox-src="${escapeHtml(content.brochure.heroImage)}" data-lightbox-title="${escapeHtml(content.brochure.title)}" tabindex="0" role="button" />
             ${(content.brochure.heroPages || [])
-              .map((image, index) => `<img class="atlas-float atlas-float-${index + 1}" src="${escapeHtml(image)}" alt="" loading="lazy" />`)
+              .map((image, index) => `<img class="atlas-float atlas-float-${index + 1}" src="${escapeHtml(image)}" alt="" loading="lazy" data-lightbox-src="${escapeHtml(image)}" data-lightbox-title="${escapeHtml(content.brochure.title)}" tabindex="0" role="button" />`)
               .join("")}
+          </div>
+          <div class="atlas-note">
             <p>${escapeHtml(content.brochure.highlight)}</p>
           </div>
         </div>
@@ -357,6 +412,15 @@
         <address>${escapeHtml(content.footer.address)}</address>
         <p>${escapeHtml(content.footer.copyright)}</p>
       </footer>
+      <div class="lightbox" data-lightbox hidden aria-hidden="true">
+        <button class="lightbox-close" type="button" data-lightbox-close aria-label="关闭大图">×</button>
+        <button class="lightbox-nav lightbox-prev" type="button" data-lightbox-prev aria-label="上一张">‹</button>
+        <figure class="lightbox-frame">
+          <img data-lightbox-image src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="" />
+          <figcaption data-lightbox-caption></figcaption>
+        </figure>
+        <button class="lightbox-nav lightbox-next" type="button" data-lightbox-next aria-label="下一张">›</button>
+      </div>
     `;
   }
 
@@ -369,10 +433,14 @@
   applyTheme();
   renderNav();
   renderPage();
+  initLightbox();
+  initFilmPreview();
+  initRailDrag();
+  initHeroMotion();
   initMotion();
 
   function initMotion() {
-    const motionItems = document.querySelectorAll("[data-motion], .brochure-page, .merchant-card, .film-card");
+    const motionItems = document.querySelectorAll("[data-motion], .native-story-panel, .brochure-page, .merchant-card");
     if (!motionItems.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     document.documentElement.classList.add("motion-ready");
     const observer = new IntersectionObserver(
@@ -386,5 +454,145 @@
       { threshold: 0.18, rootMargin: "0px 0px -8% 0px" }
     );
     motionItems.forEach((item) => observer.observe(item));
+  }
+
+  function initLightbox() {
+    const lightbox = document.querySelector("[data-lightbox]");
+    if (!lightbox) return;
+    const image = lightbox.querySelector("[data-lightbox-image]");
+    const caption = lightbox.querySelector("[data-lightbox-caption]");
+    const items = Array.from(document.querySelectorAll("[data-lightbox-src]"));
+    let currentIndex = -1;
+    let lastTrigger = null;
+
+    function show(index) {
+      if (!items.length) return;
+      currentIndex = (index + items.length) % items.length;
+      const item = items[currentIndex];
+      lastTrigger = item;
+      image.src = item.dataset.lightboxSrc;
+      image.alt = item.dataset.lightboxTitle || "";
+      caption.textContent = item.dataset.lightboxTitle || "";
+      lightbox.hidden = false;
+      lightbox.setAttribute("aria-hidden", "false");
+      lightbox.classList.add("is-open");
+      document.body.classList.add("lightbox-open");
+      lightbox.querySelector("[data-lightbox-close]").focus();
+    }
+
+    function close() {
+      lightbox.classList.remove("is-open");
+      document.body.classList.remove("lightbox-open");
+      if (lastTrigger && typeof lastTrigger.focus === "function") lastTrigger.focus({ preventScroll: true });
+      lightbox.setAttribute("aria-hidden", "true");
+      setTimeout(() => {
+        lightbox.hidden = true;
+        image.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+      }, 180);
+    }
+
+    items.forEach((item, index) => {
+      item.addEventListener("click", () => show(index));
+      item.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        show(index);
+      });
+    });
+    lightbox.querySelector("[data-lightbox-close]").addEventListener("click", close);
+    lightbox.querySelector("[data-lightbox-prev]").addEventListener("click", () => show(currentIndex - 1));
+    lightbox.querySelector("[data-lightbox-next]").addEventListener("click", () => show(currentIndex + 1));
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) close();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (lightbox.hidden) return;
+      if (event.key === "Escape") close();
+      if (event.key === "ArrowLeft") show(currentIndex - 1);
+      if (event.key === "ArrowRight") show(currentIndex + 1);
+    });
+  }
+
+  function initFilmPreview() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    document.querySelectorAll(".film-card").forEach((card) => {
+      const video = card.querySelector("video");
+      const button = card.querySelector(".film-play-toggle");
+      if (!video) return;
+      video.muted = true;
+      card.addEventListener("pointerenter", () => {
+        if (card.classList.contains("is-playing")) return;
+        card.classList.add("is-previewing");
+        const playPromise = video.play();
+        if (playPromise && typeof playPromise.catch === "function") playPromise.catch(() => {});
+      });
+      card.addEventListener("pointerleave", () => {
+        if (card.classList.contains("is-playing")) return;
+        card.classList.remove("is-previewing");
+        video.pause();
+      });
+      button?.addEventListener("click", () => {
+        const isPlaying = card.classList.toggle("is-playing");
+        card.classList.toggle("is-previewing", isPlaying);
+        video.muted = !isPlaying;
+        button.textContent = isPlaying ? "暂停影片" : "播放完整影片";
+        button.setAttribute("aria-label", `${isPlaying ? "暂停" : "播放"}${card.querySelector("h3")?.textContent || ""}`);
+        if (isPlaying) {
+          const playPromise = video.play();
+          if (playPromise && typeof playPromise.catch === "function") playPromise.catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+      video.addEventListener("ended", () => {
+        card.classList.remove("is-playing", "is-previewing");
+        video.muted = true;
+        if (button) {
+          button.textContent = "播放完整影片";
+          button.setAttribute("aria-label", `播放${card.querySelector("h3")?.textContent || ""}`);
+        }
+      });
+    });
+  }
+
+  function initRailDrag() {
+    document.querySelectorAll(".brochure-rail").forEach((rail) => {
+      let dragging = false;
+      let startX = 0;
+      let startScroll = 0;
+      rail.addEventListener("pointerdown", (event) => {
+        if (event.target.closest("button, a, video")) return;
+        dragging = true;
+        startX = event.clientX;
+        startScroll = rail.scrollLeft;
+        rail.classList.add("is-dragging");
+        rail.setPointerCapture(event.pointerId);
+      });
+      rail.addEventListener("pointermove", (event) => {
+        if (!dragging) return;
+        rail.scrollLeft = startScroll - (event.clientX - startX);
+      });
+      rail.addEventListener("pointerup", () => {
+        dragging = false;
+        rail.classList.remove("is-dragging");
+      });
+      rail.addEventListener("pointercancel", () => {
+        dragging = false;
+        rail.classList.remove("is-dragging");
+      });
+    });
+  }
+
+  function initHeroMotion() {
+    const hero = document.querySelector(".hero-section");
+    const media = document.querySelector(".hero-media");
+    if (!hero || !media || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    hero.addEventListener("pointermove", (event) => {
+      const rect = hero.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width - 0.5) * 10;
+      const y = ((event.clientY - rect.top) / rect.height - 0.5) * 10;
+      media.style.setProperty("--hero-pan-x", `${x}px`);
+      media.style.setProperty("--hero-pan-y", `${y}px`);
+    });
   }
 })();
