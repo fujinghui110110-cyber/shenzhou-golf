@@ -135,6 +135,21 @@
       location: "位置",
       pageTitle: "浏览器标题",
       pageDescription: "页面描述",
+      modelVersion: "内容模型版本",
+      chapters: "目录内容",
+      label: "目录名称",
+      cards: "简介卡片",
+      kicker: "分类小标题",
+      facts: "详情要点",
+      body: "详情正文",
+      gallery: "详情图册",
+      items: "联系条目",
+      href: "链接地址",
+      openDetailLabel: "详情按钮文字",
+      closeLabel: "关闭按钮文字",
+      galleryLabel: "图册辅助标签",
+      factsLabel: "要点辅助标签",
+      videoUnavailable: "视频未接入提示",
       mainNavAriaLabel: "主导航辅助标签",
       skipLabel: "跳转正文文字",
       adminLabel: "后台入口文字",
@@ -404,7 +419,7 @@
           <div>
             <p class="micro-label">DAILY EDITS</p>
             <h2>常用内容</h2>
-            <p>日常最常改的内容放在这里：品牌名、首屏文案、按钮、电话、主图和视频封面。</p>
+            <p>日常最常改的内容放在这里：品牌名、首屏文案、目录标题、联系方式、主图和视频封面。</p>
           </div>
           <a class="preview-link" href="./index.html" target="_blank" rel="noreferrer">打开前台预览</a>
         </div>
@@ -417,16 +432,24 @@
           ${renderQuickText("hero.subtitle", "首页说明", "建议控制在 1-2 句话", true)}
           ${renderQuickText("hero.primaryCta", "主按钮文字", "建议 2-5 个字")}
           ${renderQuickText("hero.secondaryCta", "副按钮文字", "建议 2-5 个字")}
-          ${renderQuickText("sections.intro.title", "导语标题", "首页第二屏的大标题", true)}
-          ${renderQuickText("sections.courses.title", "球场版块标题", "球场组合版块标题")}
-          ${renderQuickText("sections.amenities.title", "度假版块标题", "会所、餐饮、度假资源版块标题")}
-          ${renderQuickText("sections.events.title", "赛事版块标题", "赛事和会奖版块标题")}
-          ${renderQuickText("sections.stories.title", "故事版块标题", "内容故事版块标题")}
+          ${renderQuickText("hero.videoTitle", "视频标题", "首页视频封面的标题")}
+          ${renderQuickText("hero.videoSubtitle", "视频说明", "首页视频封面的简短说明", true)}
+          ${renderQuickText("chapters.0.title", "神州半岛标题", "神州半岛目录的大标题", true)}
+          ${renderQuickText("chapters.0.intro", "神州半岛说明", "神州半岛目录说明", true)}
+          ${renderQuickText("chapters.1.title", "球会标题", "神州高尔夫球会目录的大标题", true)}
+          ${renderQuickText("chapters.1.intro", "球会说明", "神州高尔夫球会目录说明", true)}
+          ${renderQuickText("chapters.2.title", "酒店配套标题", "酒店配套目录的大标题", true)}
+          ${renderQuickText("chapters.2.intro", "酒店配套说明", "酒店与商业目录说明", true)}
+          ${renderQuickText("chapters.3.title", "高尔夫 plus 标题", "高尔夫 plus 目录的大标题", true)}
+          ${renderQuickText("chapters.3.intro", "高尔夫 plus 说明", "活动目录说明", true)}
+          ${renderQuickText("contact.title", "联系方式标题", "联系方式版块标题", true)}
+          ${renderQuickText("contact.text", "联系方式说明", "联系方式版块说明", true)}
           ${renderQuickMedia("hero.image", "首页主视觉", "建议使用横版 16:9 或 3:2 授权图片")}
-          ${renderQuickMedia("hero.videoCover", "宣传片封面", "建议使用暗色、留白充分的横版封面")}
-          ${renderQuickMedia("films.0.poster", "视频一封面", "晨露开篇视频封面")}
-          ${renderQuickMedia("films.1.poster", "视频二封面", "海岸球场视频封面")}
-          ${renderQuickMedia("films.2.poster", "视频三封面", "沙坑击球视频封面")}
+          ${renderQuickMedia("hero.videoPoster", "视频封面", "建议使用无字幕遮挡的横版封面")}
+          ${renderQuickMedia("chapters.0.image", "神州半岛主图", "神州半岛目录主图")}
+          ${renderQuickMedia("chapters.1.image", "球会主图", "球会目录主图")}
+          ${renderQuickMedia("chapters.2.image", "酒店配套主图", "酒店配套目录主图")}
+          ${renderQuickMedia("chapters.3.image", "高尔夫 plus 主图", "高尔夫 plus 目录主图")}
         </div>
       </section>`;
   }

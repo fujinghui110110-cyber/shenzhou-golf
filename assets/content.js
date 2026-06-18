@@ -1,424 +1,344 @@
 (function () {
-  const STORAGE_KEY = "shenzhou-golf-site-content-v1";
+  const STORAGE_KEY = "shenzhou-golf-site-content-v2";
 
   function asset(path) {
     return `./assets/${path}`;
   }
 
-  const BROCHURE_CHAPTERS = [
-    {
-      title: "天赋之境",
-      range: "6 个场景",
-      text: "北纬 18 度、13 公里全南向海岸线、内外双海与交通半径，共同定义半岛的稀缺底色。",
-      image: asset("pdf-images/shenzhou-coast-aerial.jpg"),
-      points: ["18 平方公里整岛规划", "水下能见度约 20 米", "年平均气温约 24.5 度"],
-    },
-    {
-      title: "高尔夫传奇",
-      range: "16 个场景",
-      text: "3900 亩球场社区、41 洞体验、400 码真草练习场与汤姆·韦斯科夫设计语言，组成神州半岛的核心引擎。",
-      image: asset("pdf-images/shenzhou-mountain-hole.jpg"),
-      points: ["36 洞球场与 5 洞练习洞", "沙丘滨海林克斯风格", "长期承接职业与商业赛事"],
-    },
-    {
-      title: "栖居之选",
-      range: "24 个场景",
-      text: "君悦、喜来登、福朋喜来登与半岛餐饮商业，支撑球场之外的住宿、宴会、餐饮与社交停留。",
-      image: asset("pdf-images/shenzhou-peninsula-resort.jpg"),
-      points: ["三大国际品牌酒店", "餐饮、酒吧与会议宴会", "半岛特色商业场景"],
-    },
-    {
-      title: "玩海时代",
-      range: "3 个场景",
-      text: "沙滩俱乐部把高尔夫假期延伸至海上，冲浪、桨板、帆船、营地与团建共同打开亲海体验。",
-      image: asset("media/film-coast-original-poster.jpg"),
-      points: ["北纬 18 度海陆探索营", "玻璃海运动场", "青少年成长营地"],
-    },
-    {
-      title: "高尔夫+",
-      range: "16 个场景",
-      text: "品牌赛事、会员赛事、酒店联动与晚宴社交，让神州半岛成为兼具竞技、度假与圈层交流的目的地。",
-      image: asset("media/film-sunset-poster.jpg"),
-      points: ["燕之屋高尔夫嘉年华", "保时捷与梅赛德斯赛事", "清华校友与会员赛事"],
-    },
-  ];
-
-  const BROCHURE_PAGE_TITLES = [
-    "中海神州高尔夫度假村",
-    "项目介绍目录",
-    "天赋之境章节",
-    "无可复制的黄金区位",
-    "天赋稀贵的自然资源",
-    "一座半岛一座度假村",
-    "纵横通达链接世界",
-    "因为远所以野",
-    "区位交通方式",
-    "高尔夫传奇章节",
-    "独占半岛最佳 C 位资源",
-    "传奇设计师汤姆韦斯科夫",
-    "球场概况",
-    "风格运营与会所设施",
-    "球场实景一",
-    "球场实景二",
-    "球场实景三",
-    "球场实景四",
-    "球场实景五",
-    "球场实景六",
-    "球场实景七",
-    "球场实景八",
-    "球场实景九",
-    "球场实景十",
-    "2013-2026 年度奖项",
-    "为赛事而生",
-    "三大酒店章节",
-    "神州半岛君悦酒店",
-    "君悦酒店房型概览",
-    "嘉宾轩与宴会场地",
-    "君悦餐饮",
-    "君悦康乐设施",
-    "神州半岛喜来登度假酒店",
-    "喜来登房型概览",
-    "喜来登餐饮及酒吧",
-    "采悦轩一席海南菜",
-    "喜来登宴会及会议场地",
-    "神州半岛福朋喜来登酒店",
-    "福朋房型概览",
-    "福朋餐饮及酒吧",
-    "科罗娜日落吧一",
-    "科罗娜日落吧二",
-    "CASA 卡萨科罗娜餐厅一",
-    "CASA 卡萨科罗娜餐厅二",
-    "SEALINE 海岸线酒吧一",
-    "SEALINE 海岸线酒吧二",
-    "The Wet Floor 湿地板 Gym 一",
-    "The Wet Floor 湿地板 Gym 二",
-    "SHAKA SURF 沙卡冲浪店",
-    "MOJO 沫酒精酿吧一",
-    "MOJO 沫酒精酿吧二",
-    "神州半岛沙滩俱乐部章节",
-    "北纬 18 度海陆探索营",
-    "水上狂欢项目",
-    "青少年夏冬令营与团建",
-    "高尔夫+章节",
-    "燕之屋高尔夫嘉年华",
-    "一场赛事两项纪录",
-    "山海之间荣耀之夜",
-    "欢迎晚宴烟花与颁奖",
-    "郎酒庄园会员杯总决赛",
-    "规模空前三赛齐开",
-    "保时捷高尔夫巡回赛中国总决赛",
-    "一场赛事三重含金量",
-    "君悦之夜为巅峰加冕",
-    "保时捷欢迎晚宴",
-    "梅赛德斯杯中国总决赛",
-    "百年传承决战神州",
-    "名人赋能",
-    "酒店联动明星之夜",
-    "红运郎杯清华校友年度封场杯",
-    "以球会友与校同辉",
-    "感谢观看",
-  ];
-
-  const OMITTED_BROCHURE_PAGES = new Set([1, 2, 3, 10, 27, 52, 56, 73]);
-
-  function brochureChapter(pageNumber) {
-    if (pageNumber <= 9) return "天赋之境";
-    if (pageNumber <= 26) return "高尔夫传奇";
-    if (pageNumber <= 51) return "栖居之选";
-    if (pageNumber <= 55) return "玩海时代";
-    return "高尔夫+";
-  }
-
-  function brochurePages() {
-    let displayIndex = 0;
-    return BROCHURE_PAGE_TITLES.flatMap((title, index) => {
-      const pageNumber = index + 1;
-      if (OMITTED_BROCHURE_PAGES.has(pageNumber)) return [];
-      displayIndex += 1;
-      return {
-        number: String(displayIndex).padStart(2, "0"),
-        sourcePage: String(pageNumber).padStart(2, "0"),
-        chapter: brochureChapter(pageNumber),
-        title,
-        nativeType: /年度奖项/.test(title) ? "awards" : "",
-        image: asset(`pdf-pages/page-${String(pageNumber).padStart(3, "0")}.jpg`),
-      };
-    });
-  }
+  const IMG = {
+    peninsulaHero: asset("ppt/01天赋之境-神州半岛/01天赋之境-神州半岛-无可复制的黄金区位-01-55356b4fb3ed.webp"),
+    peninsulaWide: asset("ppt/01天赋之境-神州半岛/01天赋之境-神州半岛-纵横通达-链接世界-01-356d7b1d1eea.webp"),
+    peninsulaMap: asset("ppt/01天赋之境-神州半岛/01天赋之境-神州半岛-纵横通达-链接世界-03-c9fb4a68d686.webp"),
+    peninsulaAerial: asset("ppt/01天赋之境-神州半岛/01天赋之境-神州半岛-无可复制的黄金区位-03-b28bde1b5a19.webp"),
+    clubHero: asset("ppt/02核心引擎-高尔夫传奇/02核心引擎-高尔夫传奇-01顶级滨海高尔夫度假范本-01-98bfe93f8b54.webp"),
+    designer: asset("ppt/02核心引擎-高尔夫传奇/02核心引擎-高尔夫传奇-02传奇设计师-02-eb4655417945.webp"),
+    courseOne: asset("ppt/02核心引擎-高尔夫传奇/02核心引擎-高尔夫传奇-033900亩-一座球场的四种可能-01-7e5a963cae09.webp"),
+    courseTwo: asset("ppt/02核心引擎-高尔夫传奇/02核心引擎-高尔夫传奇-033900亩-一座球场的四种可能-02-c3310039994e.webp"),
+    courseThree: asset("ppt/02核心引擎-高尔夫传奇/02核心引擎-高尔夫传奇-033900亩-一座球场的四种可能-03-d2d9c22b41cc.webp"),
+    mountain: asset("ppt/02核心引擎-高尔夫传奇/02核心引擎-高尔夫传奇-04山海沙石风之间-洞见天地-01-510ab13584e7.webp"),
+    sea: asset("ppt/02核心引擎-高尔夫传奇/02核心引擎-高尔夫传奇-04山海沙石风之间-洞见天地-02-9ca7bae4778f.webp"),
+    sand: asset("ppt/02核心引擎-高尔夫传奇/02核心引擎-高尔夫传奇-04山海沙石风之间-洞见天地-13-c18f14527426.webp"),
+    rock: asset("ppt/02核心引擎-高尔夫传奇/02核心引擎-高尔夫传奇-04山海沙石风之间-洞见天地-08-434ca299e5d3.webp"),
+    eventGolf: asset("ppt/02核心引擎-高尔夫传奇/02核心引擎-高尔夫传奇-06为专业赛事而生-02-3501949a529d.webp"),
+    hyatt: asset("ppt/03栖居之选-三大酒店/03栖居之选-三大酒店-01神州半岛君悦酒店-08-c67edbc822c9.webp"),
+    hyattRoom: asset("ppt/03栖居之选-三大酒店/03栖居之选-三大酒店-01神州半岛君悦酒店-01-0c32d20d9df9.webp"),
+    hyattDining: asset("ppt/03栖居之选-三大酒店/03栖居之选-三大酒店-01神州半岛君悦酒店-02-7526849c8bf4.webp"),
+    sheraton: asset("ppt/03栖居之选-三大酒店/03栖居之选-三大酒店-02神州半岛喜来登度假酒店-08-48362bb5d3c4.webp"),
+    sheratonRoom: asset("ppt/03栖居之选-三大酒店/03栖居之选-三大酒店-02神州半岛喜来登度假酒店-01-3b0d85546b1d.webp"),
+    fourPoints: asset("ppt/03栖居之选-三大酒店/03栖居之选-三大酒店-03神州半岛福朋喜来登酒店-01-c6f43d350c1c.webp"),
+    fourPointsRoom: asset("ppt/03栖居之选-三大酒店/03栖居之选-三大酒店-03神州半岛福朋喜来登酒店-02-c47d5dd17899.webp"),
+    merchantCorona: asset("ppt/03栖居之选-三大酒店/03栖居之选-三大酒店-04一岛万象-自在欢聚场-01-bf3c11d0a974.webp"),
+    merchantCasa: asset("ppt/03栖居之选-三大酒店/03栖居之选-三大酒店-04一岛万象-自在欢聚场-03-72df59fa6b8e.webp"),
+    merchantSealine: asset("ppt/03栖居之选-三大酒店/03栖居之选-三大酒店-04一岛万象-自在欢聚场-08-60e69062e182.webp"),
+    merchantWet: asset("ppt/03栖居之选-三大酒店/03栖居之选-三大酒店-04一岛万象-自在欢聚场-06-2308a7907d3c.webp"),
+    merchantShaka: asset("ppt/03栖居之选-三大酒店/03栖居之选-三大酒店-04一岛万象-自在欢聚场-02-d57a12bd6727.webp"),
+    merchantMojo: asset("ppt/03栖居之选-三大酒店/03栖居之选-三大酒店-04一岛万象-自在欢聚场-07-d87148116773.webp"),
+    plusYan: asset("ppt/04高尔夫-高球无界/04高尔夫-高球无界-01荣光共鉴-合作案例精彩回顾-01-6276c21025bd.webp"),
+    plusDinner: asset("ppt/04高尔夫-高球无界/04高尔夫-高球无界-01荣光共鉴-合作案例精彩回顾-02-453124f147dd.webp"),
+    plusFirework: asset("ppt/04高尔夫-高球无界/04高尔夫-高球无界-01荣光共鉴-合作案例精彩回顾-03-e776576a01ce.webp"),
+    plusPorsche: asset("ppt/04高尔夫-高球无界/04高尔夫-高球无界-01荣光共鉴-合作案例精彩回顾-12-68cfff5a6191.webp"),
+    plusMercedes: asset("ppt/04高尔夫-高球无界/04高尔夫-高球无界-01荣光共鉴-合作案例精彩回顾-14-8b1ee2bfcafc.webp"),
+    plusLang: asset("ppt/04高尔夫-高球无界/04高尔夫-高球无界-01荣光共鉴-合作案例精彩回顾-16-55efccea7fcc.webp"),
+  };
 
   const DEFAULT_CONTENT = {
+    modelVersion: 2,
     brand: {
-      clubName: "中海神州高尔夫度假村",
+      clubName: "中海神州高尔夫球会",
       englishName: "Golf Resort at Shenzhou Peninsula",
       location: "海南万宁神州半岛",
       phone: "+86 898 3622 0000",
       email: "reserve@cohl.com",
       bookingLabel: "预约咨询",
-      pageTitle: "中海神州高尔夫度假村 | 万宁滨海高尔夫目的地",
-      pageDescription: "位于海南万宁神州半岛的滨海高尔夫度假目的地，拥有 3900 亩球场社区、41 洞球场体验、400 码真草练习场与半岛度假配套。",
+      pageTitle: "中海神州高尔夫球会 | 万宁滨海高尔夫目的地",
+      pageDescription: "中海神州高尔夫球会位于海南万宁神州半岛，呈现滨海球场、国际酒店、特色商业、品牌赛事与高尔夫度假体验。",
     },
     theme: {
-      preset: "海岸奢华",
+      preset: "黑金海岸",
       accentColor: "#c8a45d",
       deepColor: "#061413",
       primaryColor: "#315f4c",
-      paperColor: "#e8ece4",
-      cardColor: "#f7f4ea",
+      paperColor: "#f4f0e4",
+      cardColor: "#fffaf0",
       highlightColor: "#8f6a3d",
       fontStyle: "modern-cn",
       headlineScale: 100,
       bodyScale: 100,
       navScale: 100,
       sectionSpacing: 100,
-      cornerRadius: 10,
+      cornerRadius: 14,
       imageContrast: 106,
-      imageWarmth: 98,
-      motionLevel: 76,
+      imageWarmth: 100,
+      motionLevel: 78,
     },
     nav: [
-      { label: "球场", target: "courses" },
-      { label: "影像", target: "films" },
-      { label: "图志", target: "brochure" },
-      { label: "商户", target: "merchants" },
-      { label: "赛事", target: "events" },
-      { label: "度假", target: "amenities" },
-      { label: "预约", target: "booking" },
+      { label: "首页", target: "top" },
+      { label: "神州半岛", target: "peninsula" },
+      { label: "神州高尔夫球会", target: "club" },
+      { label: "酒店配套", target: "hotels" },
+      { label: "高尔夫 plus", target: "golf-plus" },
+      { label: "联系方式", target: "contact" },
     ],
     hero: {
       eyebrow: "SHENZHOU PENINSULA",
-      title: "北纬 18 度的海岸球场",
-      subtitle: "3900 亩滨海林克斯、41 洞球场体验与半岛度假配套，在万宁神州半岛完整展开。",
-      primaryCta: "预约体验",
-      secondaryCta: "观看影像",
-      image: asset("pdf-images/shenzhou-coast-aerial.jpg"),
-      videoCover: asset("media/film-coast-original-poster.jpg"),
-      videoTitle: "北纬 18 度的风",
-      videoSubtitle: "海岸、沙丘、果岭与南海浪线同框。",
-      videoUrl: "",
+      title: "一座南海岸的高尔夫度假目的地",
+      subtitle: "三面环海，一面接陆。球场、酒店、海湾生活与品牌赛事在神州半岛自然合拢。",
+      primaryCta: "探索目录",
+      secondaryCta: "预约咨询",
+      image: IMG.peninsulaHero,
+      videoPoster: asset("media/film-main-poster.jpg"),
+      videoKey: "main",
+      videoTitle: "神州半岛影像",
+      videoSubtitle: "海风、果岭与击球瞬间，构成半岛最直接的记忆。",
     },
-    ui: {
-      statsAriaLabel: "球会关键数据",
-      experiencesAriaLabel: "体验入口",
-      mainNavAriaLabel: "主导航",
-      skipLabel: "跳到正文",
-      menuLabel: "菜单",
-      phoneSeparator: "：",
-      storySeparator: " / ",
-      courseLabels: {
-        holes: "球洞",
-        par: "标准杆",
-        yardage: "长度",
-      },
-    },
-    sections: {
-      intro: {
-        title: "不是单一球场，而是一座海岸度假目的地。",
-        text: "三面环海，一面接陆。13 公里全南向海岸线、原始沙丘、老爷海湿地和酒店群，让一场球自然延伸成完整假期。",
-      },
-      films: {
-        title: "光影进入神州半岛",
-        text: "从晨露、海岸到沙坑击球，以三段影像进入球场的自然肌理、海岸尺度与运动瞬间。",
-      },
-      courses: {
-        title: "3900 亩，一座球场的四种可能",
-        text: "36 洞加 5 洞练习洞，可组合为东场、西场、北场及锦标赛球场，并配备 400 码双向对打真草练习场。",
-      },
-      amenities: {
-        title: "球会、酒店、海湾，串联一个半岛假期",
-        text: "逾万平方米双层海景会所、国际品牌酒店群、沙滩俱乐部与会奖场景，承接度假、商务与赛事行程。",
-      },
-      brochure: {
-        title: "半岛图志",
-        text: "以五个篇章呈现神州半岛的区位、球场、酒店、海湾生活与高尔夫+活动场景。",
-      },
-      merchants: {
-        title: "特色商户",
-        text: "从日落酒吧到海岸餐厅，半岛商业为空间停留与社交体验增加层次。",
-      },
-      events: {
-        title: "为专业赛事而生",
-        text: "从职业资格赛、青少年赛事到高端品牌邀请赛，神州半岛长期承接兼具竞技、度假与社交属性的高球活动。",
-        cta: "咨询赛事",
-      },
-      stories: {
-        title: "荣光共鉴",
-        text: "奖项、品牌合作与会员故事共同构成球会声誉，也是未来内容运营的长期资产。",
-      },
-    },
-    today: {
-      title: "半岛概览",
-      dateLabel: "18 平方公里整岛规划",
-      notices: ["13 公里全南向海岸线", "年日照约 290 天，年平均气温约 24.5 度", "三亚、海口、博鳌机场构成一小时至两小时度假圈"],
-    },
-    stats: [
-      { value: "3900亩", label: "高尔夫度假社区面积" },
+    metrics: [
+      { value: "18km²", label: "整岛规划度假区域" },
+      { value: "13km", label: "全南向海岸线" },
       { value: "41洞", label: "36 洞球场与 5 洞练习洞" },
       { value: "400码", label: "双向对打真草练习场" },
-      { value: "13公里", label: "全南向海岸线" },
     ],
-    experiences: [
+    chapters: [
       {
-        kicker: "Latitude 18",
-        title: "半岛最佳 C 位资源",
-        text: "球会坐落神州半岛核心滨海地带，三面环海，将海岸、山体、沙丘与果岭收进同一视野。",
-        image: asset("pdf-images/shenzhou-coast-aerial.jpg"),
+        id: "peninsula",
+        eyebrow: "PENINSULA",
+        label: "神州半岛",
+        title: "天赋之境，先天稀缺的半岛底色",
+        intro: "北纬 18 度、内外双海、四湾六岭与交通半径，决定了神州半岛不是普通度假区，而是可以承载长假、会奖和球会生活的目的地。",
+        image: IMG.peninsulaWide,
+        cards: [
+          {
+            id: "golden-location",
+            kicker: "黄金区位",
+            title: "不可复制的半岛资源",
+            excerpt: "18 平方公里整岛规划，13 公里全南向海岸线，南海与老爷海共同塑造半岛景观。",
+            image: IMG.peninsulaHero,
+            facts: ["年日照约 290 天", "年平均气温约 24.5 度", "海水能见度可达约 20 米"],
+            body: [
+              { title: "内外双海", text: "三面环海，一面接陆，外海南海与内海老爷海形成双重海域视野，也为度假停留提供更丰富的景观层次。" },
+              { title: "四湾六岭", text: "乐涛湾、金沙湾、圆石湾、沁宁湾环抱半岛，六座起伏山岭构成山、海、湾、林交织的立体空间。" },
+              { title: "生态秘境", text: "周边覆盖自然植被、红树林湿地与原生海岛资源，空气清爽，具备热带花园式度假基底。" },
+            ],
+            gallery: [IMG.peninsulaHero, IMG.peninsulaAerial, IMG.peninsulaWide],
+          },
+          {
+            id: "access",
+            kicker: "交通半径",
+            title: "海陆空立体抵达",
+            excerpt: "神州半岛与海口、三亚、博鳌机场及高铁站形成可组织的度假交通网络。",
+            image: IMG.peninsulaMap,
+            facts: ["博鳌机场约 70 分钟车程", "三亚机场约 120 分钟车程", "神州站约 15 分钟车程"],
+            body: [
+              { title: "恰到好处的距离", text: "从环岛高速驶入半岛，城市喧嚣被海风、红树林和度假区尺度逐步过滤，抵达本身成为度假叙事的一部分。" },
+              { title: "一小时至两小时度假圈", text: "机场、高铁、自驾共同覆盖岛内主要客源路径，便于个人度假、企业会奖与赛事接待统一组织。" },
+            ],
+            gallery: [IMG.peninsulaMap, IMG.peninsulaWide],
+          },
+        ],
       },
       {
-        kicker: "Tom Weiskopf",
-        title: "传奇设计师手笔",
-        text: "由汤姆·韦斯科夫设计，以沙丘滨海林克斯风格融合原始地貌，兼具挑战性与观赏性。",
-        image: asset("pdf-images/shenzhou-mountain-hole.jpg"),
+        id: "club",
+        eyebrow: "GOLF CLUB",
+        label: "神州高尔夫球会",
+        title: "以高尔夫为核心的半岛引擎",
+        intro: "从汤姆·韦斯科夫设计语言到山海沙石风的球场质感，从锦标赛组合到长期赛事承接，球会构成神州半岛的核心吸引力。",
+        image: IMG.clubHero,
+        cards: [
+          {
+            id: "course-model",
+            kicker: "球场格局",
+            title: "一座球场的四种可能",
+            excerpt: "36 洞球场与 5 洞练习洞，可组合为西场、东场、北场及锦标赛球场。",
+            image: IMG.courseOne,
+            facts: ["约 3900 亩高尔夫度假社区", "36 洞 + 5 洞练习洞", "逾万平方米双层海景会所"],
+            body: [
+              { title: "灵活组合", text: "球场可根据日常运营、会员接待和大型赛事需求，在多个场地组合之间切换。" },
+              { title: "练习体系", text: "400 码双向对打真草练习场、推杆果岭、切杆沙坑与练习洞，为热身、训练和青少年课程提供完整空间。" },
+            ],
+            gallery: [IMG.courseOne, IMG.courseTwo, IMG.courseThree, IMG.clubHero],
+          },
+          {
+            id: "designer",
+            kicker: "设计师",
+            title: "汤姆·韦斯科夫的球场语言",
+            excerpt: "设计尊重原始地貌，以沙丘滨海林克斯风格平衡挑战性、观赏性和度假气质。",
+            image: IMG.designer,
+            facts: ["1996 年获评年度最佳高尔夫球场设计师", "全球多地代表作品", "注重传统理念与细节"],
+            body: [
+              { title: "经典缔造传奇", text: "汤姆·韦斯科夫以优雅挥杆和球场设计闻名，其作品强调策略、视觉张力和自然地形的合理利用。" },
+              { title: "山海之间的落点选择", text: "神州半岛的设计不是单纯制造难度，而是让海风、沙丘、山体、巨石和果岭共同参与每一次决策。" },
+            ],
+            gallery: [IMG.designer, IMG.mountain, IMG.sea],
+          },
+          {
+            id: "landscape",
+            kicker: "山海沙石风",
+            title: "五种自然元素构成球场记忆",
+            excerpt: "山体、海岸、沙丘、巨石与海风，让每个球洞都拥有不同的策略和画面。",
+            image: IMG.sea,
+            facts: ["山景映翠", "面朝南海", "原始沙丘", "嶙峋巨石", "四季海风"],
+            body: [
+              { title: "山与海", text: "远眺层峦叠翠，近看南海浪线，球道在山海之间形成开阔且有层次的击球体验。" },
+              { title: "沙与石", text: "原始沙丘形成经典林克斯防线，天然巨石既是景观，也是落点选择中的策略障碍。" },
+              { title: "风", text: "常年海风让同一球洞在不同季节和时段呈现不同打法，保持球场的新鲜感与挑战性。" },
+            ],
+            gallery: [IMG.mountain, IMG.sea, IMG.sand, IMG.rock],
+          },
+          {
+            id: "honor-events",
+            kicker: "荣誉与赛事",
+            title: "为专业赛事而生",
+            excerpt: "球会长期承接职业、青少年、商业品牌与会员赛事，形成高端活动接待能力。",
+            image: IMG.eventGolf,
+            facts: ["中国与亚洲高尔夫榜单长期入选", "职业与青少年赛事承接", "汽车、名酒、企业家赛事合作"],
+            body: [
+              { title: "荣誉脉络", text: "自 2013 年以来，球会持续进入中国与亚洲高尔夫榜单，奖项不作为堆砌数字呈现，而作为声誉资产进入品牌叙事。" },
+              { title: "赛事能力", text: "球场、会所、酒店、晚宴和交通组织共同支撑赛事闭环，适合高规格品牌活动和企业会奖。" },
+            ],
+            gallery: [IMG.eventGolf, IMG.plusPorsche, IMG.plusMercedes],
+          },
+        ],
       },
       {
-        kicker: "Golf Plus",
-        title: "高尔夫与度假共生",
-        text: "会所、酒店、沙滩俱乐部和会奖资源共同服务高端度假、商务社交与品牌活动。",
-        image: asset("pdf-images/shenzhou-peninsula-resort.jpg"),
+        id: "hotels",
+        eyebrow: "RESORT STAY",
+        label: "酒店配套",
+        title: "三大酒店与半岛商业，承接球场之外的停留",
+        intro: "君悦、喜来登、福朋喜来登构成住宿、宴会、餐饮和家庭度假基础；特色商业以图片与名称呈现，便于后续持续更新。",
+        image: IMG.hyatt,
+        cards: [
+          {
+            id: "hyatt",
+            kicker: "Grand Hyatt",
+            title: "神州半岛君悦酒店",
+            excerpt: "热带花园中的海滨度假生活，融合海景客房、餐饮、宴会和康乐设施。",
+            image: IMG.hyatt,
+            facts: ["海景客房与家庭套房", "室内外宴会及会议场地", "五家餐厅和酒吧"],
+            body: [
+              { title: "海岛度假底色", text: "酒店以轻松愉悦的海滨度假生活为灵感，在热带花园中俯瞰海景，适合家庭度假、商务社交和高尔夫行程。" },
+              { title: "宴会与餐饮", text: "无柱宴会厅、商务社交场所、户外草坪和多元餐饮，为会奖与赛事晚宴提供配套空间。" },
+            ],
+            gallery: [IMG.hyatt, IMG.hyattRoom, IMG.hyattDining],
+          },
+          {
+            id: "sheraton",
+            kicker: "Sheraton",
+            title: "神州半岛喜来登度假酒店",
+            excerpt: "坐落乐涛湾，拥有沙滩、戏水、宴会、餐饮与亲子度假场景。",
+            image: IMG.sheraton,
+            facts: ["乐涛湾海岸线", "超大户外戏水区域", "宴会厅及户外场地"],
+            body: [
+              { title: "海天相接的度假节奏", text: "酒店掩映于热带花园和椰风海韵之间，适合亲子、团队和赛事住宿。" },
+              { title: "餐饮与会议", text: "中餐厅、日落餐厅、大堂吧、海景餐厅和会议场地，共同支撑一站式接待。" },
+            ],
+            gallery: [IMG.sheraton, IMG.sheratonRoom, IMG.plusDinner],
+          },
+          {
+            id: "four-points",
+            kicker: "Four Points",
+            title: "神州半岛福朋喜来登酒店",
+            excerpt: "依山傍海，靠近海滨活动，适合轻松、便捷的半岛停留。",
+            image: IMG.fourPoints,
+            facts: ["乐涛湾区位", "园景与海景房型", "餐厅与酒吧配套"],
+            body: [
+              { title: "近海停留", text: "酒店位于神州半岛度假区，海滨活动近在咫尺，适合度假客人与活动团队灵活入住。" },
+              { title: "轻松餐饮", text: "浪吧与全日餐厅提供日常停留中的餐饮补给，与球场行程形成互补。" },
+            ],
+            gallery: [IMG.fourPoints, IMG.fourPointsRoom],
+          },
+        ],
+        merchants: [
+          { name: "科罗娜日落吧", image: IMG.merchantCorona },
+          { name: "CASA 卡萨科罗娜餐厅", image: IMG.merchantCasa },
+          { name: "SEALINE 海岸线酒吧", image: IMG.merchantSealine },
+          { name: "The Wet Floor 湿地板 Gym", image: IMG.merchantWet },
+          { name: "SHAKA SURF 沙卡冲浪店", image: IMG.merchantShaka },
+          { name: "MOJO 沫酒精酿吧", image: IMG.merchantMojo },
+        ],
+      },
+      {
+        id: "golf-plus",
+        eyebrow: "GOLF PLUS",
+        label: "高尔夫 plus",
+        title: "让一场球延展为品牌、社交与度假体验",
+        intro: "高尔夫 plus 以活动目录的方式呈现。用户先看主题和图片，感兴趣再打开图文详情。",
+        image: IMG.plusDinner,
+        cards: [
+          {
+            id: "yan-palace",
+            kicker: "品牌嘉年华",
+            title: "燕之屋高尔夫嘉年华",
+            excerpt: "300 余位嘉宾汇聚神州半岛，竞技、交流、欢迎晚宴与颁奖共同展开。",
+            image: IMG.plusYan,
+            facts: ["高端商务休闲社交平台", "户外欢迎晚宴", "颁奖晚宴与庆生仪式"],
+            body: [
+              { title: "规模与氛围", text: "活动以球会友，结合球赛、晚宴、烟花与颁奖，形成兼具竞技与社交的半岛生活方式样本。" },
+              { title: "山海之间荣耀之夜", text: "喜来登户外草坪、宴会厅和海岸夜景共同构成品牌活动的记忆点。" },
+            ],
+            gallery: [IMG.plusYan, IMG.plusDinner, IMG.plusFirework],
+          },
+          {
+            id: "porsche",
+            kicker: "顶级品牌赛事",
+            title: "保时捷高尔夫巡回赛中国总决赛",
+            excerpt: "连续多年合作，赛事、住宿、欢迎晚宴和品牌体验形成稳定样本。",
+            image: IMG.plusPorsche,
+            facts: ["总决赛竞技", "品牌晚宴", "酒店联动"],
+            body: [
+              { title: "冠军球场与顶级品牌", text: "赛事以高尔夫竞技为核心，叠加酒店住宿、社交晚宴与品牌体验，强化高端客群的完整接待。" },
+              { title: "场景联动", text: "球场、君悦酒店和半岛夜间活动共同构成从白天到夜晚的品牌动线。" },
+            ],
+            gallery: [IMG.plusPorsche, IMG.plusDinner],
+          },
+          {
+            id: "mercedes",
+            kicker: "全国总决赛",
+            title: "梅赛德斯杯中国总决赛",
+            excerpt: "全球顶级业余高球赛事的中国篇章，以竞技、嘉宾接待和晚宴形成完整闭环。",
+            image: IMG.plusMercedes,
+            facts: ["120 位精英齐聚", "竞赛与嘉宾双轨制", "冠军晋级世界总决赛"],
+            body: [
+              { title: "百年传承，决战神州", text: "赛事将顶级业余高尔夫传统引入神州半岛，以球场品质和接待能力承载全国总决赛规格。" },
+            ],
+            gallery: [IMG.plusMercedes, IMG.eventGolf],
+          },
+          {
+            id: "langjiu",
+            kicker: "会员杯总决赛",
+            title: "郎酒庄园会员杯总决赛",
+            excerpt: "全国精英会员齐聚，多个赛事同步开球，覆盖不同圈层与竞技需求。",
+            image: IMG.plusLang,
+            facts: ["全国会员赛事", "多赛制联动", "团队荣誉与社交交流"],
+            body: [
+              { title: "三赛齐开", text: "总决赛竞技赛、会员邀请赛与队长交流赛同步组织，让高尔夫赛事兼具竞技、合作与圈层交流。" },
+            ],
+            gallery: [IMG.plusLang, IMG.plusYan],
+          },
+        ],
       },
     ],
-    films: [
-      {
-        title: "晨露开篇",
-        subtitle: "从草叶和第一道光开始，建立球场的自然质感。",
-        videoKey: "dew",
-        src: "",
-        poster: asset("media/film-dew-original-poster.jpg"),
-      },
-      {
-        title: "北纬 18 度的风",
-        subtitle: "海浪、山体和果岭同框，是神州半岛最直接的记忆点。",
-        videoKey: "coast",
-        src: "",
-        poster: asset("media/film-coast-original-poster.jpg"),
-      },
-      {
-        title: "沙坑与击球瞬间",
-        subtitle: "让球场难度、动作美感和服务场景进入同一段宣传叙事。",
-        videoKey: "bunker",
-        src: "",
-        poster: asset("media/film-bunker-original-poster.jpg"),
-      },
-    ],
-    courses: [
-      {
-        name: "东场",
-        type: "山海沙石",
-        holes: "18 洞",
-        par: "72 杆",
-        yardage: "可按赛事设置",
-        note: "山体、海岸、沙地和岩石构成多层策略，适合高水平球员与品牌赛事。",
-        image: asset("pdf-images/shenzhou-mountain-hole.jpg"),
-      },
-      {
-        name: "西场",
-        type: "海景沙丘",
-        holes: "18 洞",
-        par: "72 杆",
-        yardage: "可按开球台调整",
-        note: "沿海岸线展开，风向、落点与沙丘地貌决定每一次攻守选择。",
-        image: asset("pdf-images/shenzhou-fairway-sun.jpg"),
-      },
-      {
-        name: "练习区",
-        type: "5 洞练习区",
-        holes: "5 洞",
-        par: "教学组合",
-        yardage: "400 码练习场",
-        note: "真草练习场、推杆果岭、切杆沙坑与练习洞组合，支持训练、青少年课程和热身。",
-        image: asset("media/film-bunker-original-poster.jpg"),
-      },
-    ],
-    amenities: [
-      { title: "双层海景会所", text: "逾万平方米会所承接接待、更衣、专卖、餐厅、会议室与观景动线。", image: asset("pdf-images/shenzhou-peninsula-resort.jpg") },
-      { title: "三大酒店群", text: "君悦、喜来登、福朋喜来登构成住宿、宴会、餐饮与商务接待基础。", image: asset("pdf-images/shenzhou-peninsula-resort.jpg") },
-      { title: "沙滩俱乐部", text: "冲浪、桨板、皮划艇、帆船和亲子营地，把球场假期延伸到海上。", image: asset("media/film-coast-original-poster.jpg") },
-      { title: "会奖与晚宴", text: "草坪欢迎晚宴、宴会厅颁奖和品牌日活动可与球赛行程完整衔接。", image: asset("media/film-sunset-poster.jpg") },
-    ],
-    brochure: {
-      eyebrow: "SHENZHOU ATLAS",
-      title: "山海之间的球会生活",
-      subtitle: "五个篇章展开半岛的自然资源、球场传奇、酒店群、沙滩俱乐部与高尔夫+活动，让一次到访拥有清晰的停留理由。",
-      heroImage: asset("pdf-images/shenzhou-coast-aerial.jpg"),
-      heroPages: [asset("pdf-images/shenzhou-mountain-hole.jpg"), asset("media/film-coast-original-poster.jpg")],
-      highlight: "从 13 公里海岸线到 41 洞球场体验，从酒店群到品牌赛事，神州半岛不是单点目的地，而是可连续停留、接待与运营的山海球会生活。",
-      awardsTitle: "2013-2026 年度奖项",
-      awardsSubtitle: "自 2013 年以来，球会持续入选中国与亚洲高尔夫榜单，奖项脉络构成长期声誉资产。",
-      awards: [
-        { year: "2013", items: ["中国金牌高尔夫度假村", "十佳非凡高尔夫球度假村", "中国百佳高尔夫球场 | 第2名"] },
-        { year: "2014", items: ["中国十佳新球场", "中国十大最美高尔夫球场", "中国十佳高尔夫球场 | 东球场"] },
-        { year: "2015", items: ["亚洲十佳高尔夫度假村", "十大高尔夫地产"] },
-        { year: "2016", items: ["亚洲百佳球场 | 第4名", "中国十佳球场 | 东场", "中国TOP50球场 | 东球场 | 第2名"] },
-        { year: "2017", items: ["中国十佳高尔夫度假村 | 第3名", "中国百佳高尔夫球场 | 第6名", "十佳非凡高尔夫球场"] },
-        { year: "2018", items: ["十佳非凡高尔夫度假村", "中国十佳高尔夫球场"] },
-        { year: "2019", items: ["亚洲百佳球场 | 东球场 | 第9名", "十佳非凡高尔夫球场"] },
-        { year: "2020", items: ["亚洲百佳球场 | 东球场 | 第8名", "十佳非凡高尔夫球场"] },
-        { year: "2021", items: ["亚洲百佳球场 | 东场 | 第7名", "十佳非凡高尔夫度假村"] },
-        { year: "2022", items: ["亚洲百佳球场 | 锦标赛场 | 第3名", "十佳非凡高尔夫度假村"] },
-        { year: "2023", items: ["亚洲百佳球场 | 东球场 | 第5名", "中国百佳球场 | 锦标场 | 第2名", "中国十佳高尔夫度假村"] },
-        { year: "2024", items: ["亚洲百佳球场 | 锦标赛场 | 第4名", "中国十佳球场 | 锦标赛场"] },
-        { year: "2025", items: ["亚洲百佳球场 | 锦标赛场 | 第11名", "中国百佳球场 | 第3名", "十佳非凡高尔夫度假村"] },
-        { year: "2026", items: ["亚洲百佳球场 | 锦标赛场 | 第9名"] },
+    contact: {
+      id: "contact",
+      eyebrow: "CONTACT",
+      title: "让下一场球从神州半岛开始",
+      text: "预约开球、企业赛事、会奖行程、酒店联动或品牌活动合作，可由球会服务团队协助确认。",
+      image: IMG.peninsulaHero,
+      items: [
+        { label: "球会电话", value: "+86 898 3622 0000", href: "tel:+8689836220000" },
+        { label: "预约邮箱", value: "reserve@cohl.com", href: "mailto:reserve@cohl.com" },
+        { label: "地址", value: "海南省万宁市神州半岛旅游度假区", href: "" },
+        { label: "社交媒体", value: "待官方账号确认后接入", href: "" },
       ],
-      chapters: BROCHURE_CHAPTERS,
-      pages: brochurePages(),
+      note: "价格、开球时间、赛事档期与酒店政策，请以球会官方确认为准。",
     },
-    merchants: [
-      { name: "科罗娜日落吧", image: asset("pdf-pages/page-041.jpg") },
-      { name: "CASA 卡萨科罗娜餐厅", image: asset("pdf-pages/page-043.jpg") },
-      { name: "SEALINE 海岸线酒吧", image: asset("pdf-pages/page-045.jpg") },
-      { name: "The Wet Floor 湿地板 Gym", image: asset("pdf-pages/page-047.jpg") },
-      { name: "SHAKA SURF 沙卡冲浪店", image: asset("pdf-pages/page-049.jpg") },
-      { name: "MOJO 沫酒精酿吧", image: asset("pdf-pages/page-050.jpg") },
-    ],
-    events: [
-      {
-        date: "2025",
-        title: "燕之屋高尔夫嘉年华",
-        description: "300 余位嘉宾汇聚神州半岛，形成球会成立以来规模最大的赛事接待之一。",
-        image: asset("media/film-sunset-poster.jpg"),
-      },
-      {
-        date: "连续 5 年",
-        title: "保时捷高尔夫巡回赛中国总决赛",
-        description: "高端竞技、酒店接待和品牌晚宴共同构成冠军球场与顶级品牌的合作样本。",
-        image: asset("pdf-images/shenzhou-peninsula-resort.jpg"),
-      },
-      {
-        date: "2025",
-        title: "梅赛德斯杯中国总决赛",
-        description: "120 位精英球手及嘉宾齐聚，竞赛、住宿、晚宴与社交形成完整闭环。",
-        image: asset("pdf-images/shenzhou-fairway-sun.jpg"),
-      },
-    ],
-    stories: [
-      {
-        category: "奖项",
-        date: "2013-2026",
-        title: "持续入选中国与亚洲高尔夫榜单",
-        excerpt: "中国金牌高尔夫度假村、亚洲十佳高尔夫度假村、亚洲百佳球场等荣誉，构成球会长期声誉资产。",
-        image: asset("pdf-images/shenzhou-mountain-hole.jpg"),
-      },
-      {
-        category: "赛事",
-        date: "长期承接",
-        title: "职业、青少年与商业赛事共同发生",
-        excerpt: "职业资格赛、青少年赛事、汽车和名酒品牌赛事，为球会带来稳定的高端活动场景。",
-        image: asset("media/film-bunker-original-poster.jpg"),
-      },
-      {
-        category: "半岛生活",
-        date: "Golf Plus",
-        title: "把一场球变成两天一晚",
-        excerpt: "酒店、海湾、餐饮、沙滩俱乐部和高尔夫共同支撑停留型目的地产品。",
-        image: asset("pdf-images/shenzhou-coast-aerial.jpg"),
-      },
-    ],
-    booking: {
-      title: "让下一场球从半岛开始",
-      subtitle: "预约开球、企业赛事、会奖行程或酒店联动，可由球会服务团队协助确认。",
-      phoneLabel: "球会电话",
-      note: "请以球会官方确认的价格、时段和礼仪规则为准。",
-      image: asset("pdf-images/shenzhou-coast-aerial.jpg"),
+    ui: {
+      skipLabel: "跳到正文",
+      menuLabel: "菜单",
+      mainNavAriaLabel: "主导航",
+      openDetailLabel: "查看详情",
+      closeLabel: "关闭",
+      galleryLabel: "影像",
+      factsLabel: "要点",
+      videoUnavailable: "影像精选",
     },
     footer: {
       address: "海南省万宁市神州半岛旅游度假区",
@@ -441,71 +361,19 @@
     return merged;
   }
 
-  function ensureNavItems(content) {
-    const requiredItems = [
-      { label: "图志", target: "brochure" },
-      { label: "商户", target: "merchants" },
-    ];
-    const navItems = Array.isArray(content.nav) ? content.nav : [];
-    requiredItems.forEach((item) => {
-      const existing = navItems.find((navItem) => navItem && navItem.target === item.target);
-      if (existing) existing.label = item.label;
-      else navItems.splice(Math.max(navItems.length - 1, 0), 0, item);
-    });
-    content.nav = navItems;
-    return content;
-  }
-
-  function ensurePublicCopy(content) {
-    if (content.brochure?.title && /PDF|网页|完整项目介绍/.test(content.brochure.title)) content.brochure.title = DEFAULT_CONTENT.brochure.title;
-    if (content.brochure?.title === "山海之间，一座球会的完整度假叙事") content.brochure.title = DEFAULT_CONTENT.brochure.title;
-    if (content.brochure?.title === "山海之间，球会生活完整展开") content.brochure.title = DEFAULT_CONTENT.brochure.title;
-    if (content.brochure?.subtitle && /PDF|可替换|可维护|宣传资料/.test(content.brochure.subtitle)) content.brochure.subtitle = DEFAULT_CONTENT.brochure.subtitle;
-    if (content.sections?.brochure?.title && /完整项目介绍|PDF/.test(content.sections.brochure.title)) content.sections.brochure.title = DEFAULT_CONTENT.sections.brochure.title;
-    if (content.sections?.brochure?.text && /PDF|网页|可替换|可维护/.test(content.sections.brochure.text)) content.sections.brochure.text = DEFAULT_CONTENT.sections.brochure.text;
-    if (content.sections?.films?.title === "三段影像，进入神州半岛") content.sections.films.title = DEFAULT_CONTENT.sections.films.title;
-    if (content.today?.title && /资料|PDF|PPT/.test(content.today.title)) content.today.title = DEFAULT_CONTENT.today.title;
-    return content;
-  }
-
-  function ensureOriginalVideoAssets(content) {
-    if (content.hero?.videoUrl && /media\/film-coast\.mp4$/.test(content.hero.videoUrl)) {
-      content.hero.videoUrl = DEFAULT_CONTENT.hero.videoUrl;
-    }
-    if (content.hero?.videoCover && /media\/film-coast-poster\.jpg$/.test(content.hero.videoCover)) {
-      content.hero.videoCover = DEFAULT_CONTENT.hero.videoCover;
-    }
-    if (Array.isArray(content.films)) {
-      content.films.forEach((film, index) => {
-        const fallback = DEFAULT_CONTENT.films[index];
-        if (!fallback) return;
-        film.videoKey = film.videoKey || fallback.videoKey;
-        if (/media\/film-(dew|coast|bunker)(-original)?\.mp4$/.test(film.src || "")) film.src = fallback.src;
-        if (/media\/film-(dew|coast|bunker)-poster\.jpg$/.test(film.poster || "")) film.poster = fallback.poster;
-      });
-    }
-    return content;
-  }
-
-  function ensureCuratedBrochure(content) {
-    const pages = content.brochure?.pages;
-    const defaultPages = DEFAULT_CONTENT.brochure.pages;
-    const hasDeckUtilityPages = Array.isArray(pages) && pages.some((page) => /目录|章节|感谢观看/.test(page.title || ""));
-    if (!Array.isArray(pages) || pages.length !== defaultPages.length || hasDeckUtilityPages) content.brochure.pages = deepClone(defaultPages);
-    if (!Array.isArray(content.brochure?.chapters) || content.brochure.chapters.some((chapter) => /^P/.test(chapter.range || ""))) {
-      content.brochure.chapters = deepClone(DEFAULT_CONTENT.brochure.chapters);
-    }
+  function ensureCurrentModel(content) {
+    if (content?.modelVersion !== 2 || !Array.isArray(content.chapters)) return deepClone(DEFAULT_CONTENT);
     return content;
   }
 
   function getContent() {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      if (!stored) return ensureOriginalVideoAssets(ensureCuratedBrochure(ensurePublicCopy(ensureNavItems(deepClone(DEFAULT_CONTENT)))));
-      return ensureOriginalVideoAssets(ensureCuratedBrochure(ensurePublicCopy(ensureNavItems(deepMerge(DEFAULT_CONTENT, JSON.parse(stored))))));
+      if (!stored) return deepClone(DEFAULT_CONTENT);
+      return ensureCurrentModel(deepMerge(DEFAULT_CONTENT, JSON.parse(stored)));
     } catch (error) {
       console.warn("Failed to parse content, falling back to defaults", error);
-      return ensureOriginalVideoAssets(ensureCuratedBrochure(ensurePublicCopy(ensureNavItems(deepClone(DEFAULT_CONTENT)))));
+      return deepClone(DEFAULT_CONTENT);
     }
   }
 
@@ -515,7 +383,7 @@
 
   function resetContent() {
     localStorage.removeItem(STORAGE_KEY);
-    return ensureOriginalVideoAssets(ensureCuratedBrochure(ensurePublicCopy(ensureNavItems(deepClone(DEFAULT_CONTENT)))));
+    return deepClone(DEFAULT_CONTENT);
   }
 
   window.ShenzhouCMS = {
